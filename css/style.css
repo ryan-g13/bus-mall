@@ -1,0 +1,19 @@
+body {
+  width: 960px;
+  margin: 0px auto;
+  background-color: darkslategray;
+}
+
+body ul li {
+  display: inline;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+body ul {
+  border: 10px groove #cfcfcf;
+}
+
+h1 {
+  text-align: center;
+}
