@@ -4,7 +4,7 @@ body {
   background-color: darkslategray;
 }
 
-body ul li {
+body div ul li {
   display: inline;
   padding-left: 50px;
   padding-right: 50px;
