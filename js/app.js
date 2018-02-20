@@ -6,7 +6,7 @@ var leftImg = document.getElementById('left');
 var centerImg = document.getElementById('center');
 var rightImg = document.getElementById('right');
 // var ulEl2 = document.getElementById('listContainer');
-var totalClicks = 3; //fix to 26
+var totalClicks = 26;
 ImageCreator.allImages = [];
 var randoNum = 0;
 var comparisonValues = [null, null, null];
@@ -110,6 +110,7 @@ function listCreator() {
 var ctx = document.getElementById('list-chart').getContext('2d');
 
 var colorsArray = Array(20).fill('#ad974f');
+Chart.defaults.global.defaultFontColor = '#eaeaea';
 
 var data = {
   labels: titleArray,
