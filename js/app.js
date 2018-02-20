@@ -5,12 +5,13 @@ var ulEl = document.getElementById('container');
 var leftImg = document.getElementById('left');
 var centerImg = document.getElementById('center');
 var rightImg = document.getElementById('right');
-var totalClicks = 25;
+var totalClicks = 26;
 ImageCreator.allImages = [];
 var randoNum = 0;
 var randomValue1 = 0;
 var randomValue2 = 0;
-ImageCreator.viewsIndex = [];
+var randomValue3 = 0;
+var comparisonValues = [null, null, null];
 
 /* Constructor function */
 function ImageCreator(title, filepath) {
@@ -47,36 +48,39 @@ new ImageCreator('wine-glass', 'img/wine-glass.jpg');
 /* Methods */
 //This is the random number generator from 0 to 19 to choose the index of the image to display
 function randomGen() {
-  randoNum = Math.floor(Math.random() * ImageCreator.allImages.length);
+  return Math.floor(Math.random() * ImageCreator.allImages.length);
+}
+
+function assign(imgEl) {
+  do {
+    randoNum = randomGen();
+    var isUnique = true;
+    for (var i = 0; i < comparisonValues.length; i++) {
+      if(comparisonValues[i] === randoNum) {
+        isUnique = false;
+      }
+    }
+  }while (!isUnique);
+  imgEl.src = ImageCreator.allImages[randoNum].filepath;
+  imgEl.title = ImageCreator.allImages[randoNum].title;
+  imgEl.alt = ImageCreator.allImages[randoNum].title;
+  ImageCreator.allImages[randoNum].views++;
+  comparisonValues.push(randoNum);
+  return randoNum;
 }
 
 //render first iteration just display one image from the array targeting img tags
 function render() {
-  leftImg.src = ImageCreator.allImages[randoNum].filepath;
-  leftImg.title = ImageCreator.allImages[randoNum].title;
-  leftImg.alt = ImageCreator.allImages[randoNum].title;
-  randomValue1 = randoNum;
-  ImageCreator.viewsIndex.push(randomValue1);
-  randomGen();
-  if (randomValue1 === randoNum ) {
-    randomGen();
-  } else {
-    centerImg.src = ImageCreator.allImages[randoNum].filepath;
-    centerImg.title = ImageCreator.allImages[randoNum].title;
-    centerImg.alt = ImageCreator.allImages[randoNum].title;
-    randomValue2 = randoNum;
-    ImageCreator.viewsIndex.push(randomValue2);
+  assign(leftImg);
+  assign(centerImg);
+  assign(rightImg);
+  totalClicks--;
+  console.log(totalClicks);
+  comparisonValues.splice(0,3);
+  if (totalClicks < 1) {
+    ulEl.removeEventListener('click', render);
+    //call stats method
   }
-  randomGen();
-  if (randomValue1 === randoNum || randomValue2 === randoNum) {
-    randomGen();
-  } else {
-    rightImg.src = ImageCreator.allImages[randoNum].filepath;
-    rightImg.title = ImageCreator.allImages[randoNum].title;
-    rightImg.alt = ImageCreator.allImages[randoNum].title;
-    ImageCreator.viewsIndex.push(randoNum);
-  }
-  randomGen();
 }
 
 render();
