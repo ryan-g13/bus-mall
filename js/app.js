@@ -5,12 +5,13 @@ var ulEl = document.getElementById('container');
 var leftImg = document.getElementById('left');
 var centerImg = document.getElementById('center');
 var rightImg = document.getElementById('right');
-var ulEl2 = document.getElementById('listContainer');
-var liEl = document.createElement('li');
-var totalClicks = 26;
+// var ulEl2 = document.getElementById('listContainer');
+var totalClicks = 3; //fix to 26
 ImageCreator.allImages = [];
 var randoNum = 0;
 var comparisonValues = [null, null, null];
+var clicksArray = [];
+var titleArray = [];
 
 /* Constructor function */
 function ImageCreator(title, filepath) {
@@ -19,7 +20,6 @@ function ImageCreator(title, filepath) {
   this.clicks = 0;
   this.views = 0;
   ImageCreator.allImages.push(this);
-
 }
 
 //Instances of image objects
@@ -78,7 +78,9 @@ function render() {
   comparisonValues.splice(0,3);
   if (totalClicks < 1) {
     ulEl.removeEventListener('click', handleClicks);
-    listCreator();
+    //listCreator();
+    fillArray();
+    displayChart();
   }
 }
 
@@ -91,7 +93,7 @@ function handleClicks(event) {
   }
   render();
 }
-
+/* Depreciated functionality may be used in future iterations.
 //Target the listContainer id to create new li elements that then propagate the data to display.
 function listCreator() {
   for(var i = 0; i < ImageCreator.allImages.length; i++) {
@@ -100,11 +102,69 @@ function listCreator() {
     ulEl2.appendChild(liEl);
   }
 }
+*/
 
+//Top and Bottom performers(aka clicks = 0) function
+
+//Targeting the canvas to display the graph and potentially in the future the top and bottom performers.
+var ctx = document.getElementById('list-chart').getContext('2d');
+
+var colorsArray = Array(20).fill('#ad974f');
+
+var data = {
+  labels: titleArray,
+  datasets: [
+    {
+      data: clicksArray,
+      backgroundColor: colorsArray,
+      hoverBackgroundColor: colorsArray,
+    }
+  ]
+};
+
+function displayChart() {
+  var listChart = new Chart(ctx, {
+    type: 'bar',
+    data: data,
+    options: {
+      legend: {
+        display: false,
+        labels: {
+        }
+      },
+      responsive: false,
+      animation: {
+        duration: 1000,
+        easing: 'easeOutBounce'
+      },
+      title: {
+        display: true,
+        text: 'Votes Per Product',
+        fontSize: 18,
+      }
+    },
+    scales: {
+      yAxes: [{
+        ticks: {
+          max: 10,
+          min: 0,
+          stepSize: 1.0
+        }
+      }]
+    }
+  }
+  );
+}
+//Function to fill clicks and views array.
+function fillArray() {
+  for(var i =0; i < ImageCreator.allImages.length; i++){
+    clicksArray[i] = ImageCreator.allImages[i].clicks;
+    titleArray[i] = ImageCreator.allImages[i].title;
+  }
+}
 
 //Functions that happen on page load
 render();
-randomGen();
 
 //eventListener
 ulEl.addEventListener('click', handleClicks);
