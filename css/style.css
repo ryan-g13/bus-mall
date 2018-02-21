@@ -15,6 +15,11 @@ body div ul li {
   display: inline;
 }
 
+img {
+  width: 225px;
+  height: 200px;
+}
+
 body ul {
   border: 10px groove #ad974f;
   background-color: #8E793E;
