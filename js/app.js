@@ -124,7 +124,7 @@ var data = {
 };
 
 function displayChart() {
-  var listChart = new Chart(ctx, {
+  listChart = new Chart(ctx, {
     type: 'bar',
     data: data,
     options: {
