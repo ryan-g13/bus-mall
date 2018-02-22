@@ -12,6 +12,7 @@ var randoNum = 0;
 var comparisonValues = [null, null, null];
 var clicksArray = [];
 var titleArray = [];
+var percentageArray = Array(20).fill(0);
 
 /* Constructor function */
 function ImageCreator(title, filepath) {
@@ -59,6 +60,7 @@ function render() {
     //listCreator();
     localStorage.setItem('objectArray', JSON.stringify(ImageCreator.allImages));
     fillArray();
+    clickThroughRate();
     displayChart();
   }
 }
@@ -140,6 +142,13 @@ function fillArray() {
   for(var i =0; i < ImageCreator.allImages.length; i++){
     clicksArray[i] = ImageCreator.allImages[i].clicks;
     titleArray[i] = ImageCreator.allImages[i].title;
+  }
+}
+
+//Function to calculate the percentage of click through rate
+function clickThroughRate() {
+  for(var i = 0; i < ImageCreator.allImages.length; i++) {
+    percentageArray[i] = Math.floor(100 * (ImageCreator.allImages[i].clicks / ImageCreator.allImages[i].views));
   }
 }
 
